@@ -9,7 +9,8 @@
 import Foundation
 
 // https://developer.spotify.com/documentation/web-api/reference/object-model/#playlist-object-full
-// Khi decode phải convertFromSnakeCase bởi vì dạng Json ví dụ: external_urls
+// The external_urls key in JSON will be mapped to externalUrls by .convertFromSnakeCase
+// So you have to set keyDecodingStrategy before decode
 // let decoder = JSONDecoder()
 // decoder.keyDecodingStrategy = .convertFromSnakeCase
 struct Playlist: BaseModel {
@@ -18,9 +19,9 @@ struct Playlist: BaseModel {
     let followers: Follower
     let href: String
     let id: String
-    let image: [Image]
+    let image: [Image] = []
     let name: String
-    let tracks: [Track]
+    let tracks: [Track] = []
     let type: String
     let uri: String
 }

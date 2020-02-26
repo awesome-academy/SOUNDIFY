@@ -9,8 +9,6 @@
 import UIKit
 import WebKit
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
     
 }
-
-

@@ -13,5 +13,4 @@ struct ExternalId: BaseModel {
     let isrc: String?
     let ean: String?
     let upc: String?
-
 }
