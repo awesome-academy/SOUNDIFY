@@ -13,6 +13,7 @@
 		560F79B42403C83900FC008E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 560F79B22403C83900FC008E /* Main.storyboard */; };
 		560F79B62403C83B00FC008E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 560F79B52403C83B00FC008E /* Assets.xcassets */; };
 		560F79B92403C83B00FC008E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 560F79B72403C83B00FC008E /* LaunchScreen.storyboard */; };
+		5648369A2406566000CA86D1 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564836992406566000CA86D1 /* APIKey.swift */; };
 		5661A5E324055D12008741CF /* SpotifyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5661A5E224055D12008741CF /* SpotifyService.swift */; };
 		5661A5E524056F9E008741CF /* LoginWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5661A5E424056F9E008741CF /* LoginWebView.swift */; };
 		56A581D12406048F000D1FA6 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A581D02406048F000D1FA6 /* BaseModel.swift */; };
@@ -38,6 +39,7 @@
 		560F79B52403C83B00FC008E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		560F79B82403C83B00FC008E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		560F79BA2403C83B00FC008E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		564836992406566000CA86D1 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		5661A5E224055D12008741CF /* SpotifyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyService.swift; sourceTree = "<group>"; };
 		5661A5E424056F9E008741CF /* LoginWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebView.swift; sourceTree = "<group>"; };
 		56A581D02406048F000D1FA6 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			children = (
 				56A581D4240604DA000D1FA6 /* URLs.swift */,
 				56A581D2240604C8000D1FA6 /* Constants.swift */,
+				564836992406566000CA86D1 /* APIKey.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				56A581DC24060D20000D1FA6 /* ExternalId.swift in Sources */,
 				560F79AF2403C83900FC008E /* SceneDelegate.swift in Sources */,
 				56A581E224060E63000D1FA6 /* Track.swift in Sources */,
+				5648369A2406566000CA86D1 /* APIKey.swift in Sources */,
 				56A581E624061598000D1FA6 /* Playlist.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

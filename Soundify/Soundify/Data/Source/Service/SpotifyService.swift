@@ -9,6 +9,6 @@
 import Foundation
 import WebKit
 
-struct SpotifyService{
+struct SpotifyService {
     static let shared = SpotifyService()
 }
