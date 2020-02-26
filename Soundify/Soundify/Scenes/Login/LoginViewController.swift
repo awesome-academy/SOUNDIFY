@@ -10,5 +10,4 @@ import UIKit
 import WebKit
 
 final class LoginViewController: UIViewController {
-    
 }

@@ -16,7 +16,7 @@ import Foundation
 struct Album: BaseModel {
     let albumType: String
     let artists: [Artis] = []
-    let availableMarkets: [String]
+    let availableMarkets: [String] = []
     let externalIds: ExternalId?
     let externalUrls: ExternalUrl
     let genres: [String]?
