@@ -21,7 +21,7 @@ So you have to set keyDecodingStrategy before decode
 let decoder = JSONDecoder()
 decoder.keyDecodingStrategy = .convertFromSnakeCase
 */
-struct RefreshTokenResponse: BaseModel {
+struct RefreshTokenResponse: Codable {
     let scope: String
     let accessToken: String
     let expiresIn: Int
