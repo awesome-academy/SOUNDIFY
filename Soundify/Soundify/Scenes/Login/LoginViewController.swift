@@ -10,79 +10,90 @@ import UIKit
 import WebKit
 
 final class LoginViewController: UIViewController {
-    private let repo = UserRepository()
-    private let webView = LoginWebView()
+    private let userRepository = UserRepository()
+    private let loginWebView = LoginWebView()
     private let spotifyViewController = UIViewController()
-    private lazy var loginWebView = UINavigationController(rootViewController: spotifyViewController)
+    private lazy var loginNavigationController = UINavigationController(rootViewController: spotifyViewController)
     
     override func viewDidLoad() {
         setUpUILoginWebView()
         setUpBarButton()
     }
-
     
-    @IBAction private func tapLoginButton(_ sender: UIButton) {
+    @IBAction private func loginButtonClicked(_ sender: UIButton) {
         popUpLoginView()
     }
     
     private func popUpLoginView() {
-        repo.login(on: webView)
-        self.present(loginWebView, animated: true, completion: nil)
-        webView.reload()
+        userRepository.login(on: loginWebView)
+        self.present(loginNavigationController, animated: true, completion: nil)
+        loginWebView.reload()
     }
-    
 }
 
 //MARK: - SetUp LoginNavigationController
 extension LoginViewController {
     private func setUpUILoginWebView() {
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        loginWebView.navigationBar.titleTextAttributes = textAttributes
+        loginNavigationController.navigationBar.titleTextAttributes = textAttributes
         
-        loginWebView.navigationBar.isTranslucent = false
-        loginWebView.navigationBar.tintColor = UIColor.white
-        loginWebView.navigationBar.barTintColor = #colorLiteral(red: 0.1137254902, green: 0.7254901961, blue: 0.3294117647, alpha: 1)
-        loginWebView.modalPresentationStyle = .overFullScreen
+        loginNavigationController.navigationBar.isTranslucent = false
+        loginNavigationController.navigationBar.tintColor = UIColor.white
+        loginNavigationController.navigationBar.barTintColor = #colorLiteral(red: 0.1137254902, green: 0.7254901961, blue: 0.3294117647, alpha: 1)
+        loginNavigationController.modalPresentationStyle = .overFullScreen
         
-        spotifyViewController.view.addSubview(webView)
+        spotifyViewController.view.addSubview(loginWebView)
         
-        webView.navigationDelegate = self
-        webView.setupUI(on: spotifyViewController)
+        loginWebView.navigationDelegate = self
+        loginWebView.setupUI(on: spotifyViewController)
     }
     
     private func setUpBarButton() {
         spotifyViewController.navigationItem.title = "spotify.com"
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancelAction))
+        
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.handleCancelButton))
         spotifyViewController.navigationItem.leftBarButtonItem = cancelButton
-        let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.refreshAction))
+        
+        let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.handleRefreshControl))
         spotifyViewController.navigationItem.rightBarButtonItem = refreshButton
     }
     
-    @objc private func cancelAction() {
+    @objc private func handleCancelButton() {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @objc private func refreshAction() {
-        self.webView.reload()
+    @objc private func handleRefreshControl() {
+        self.loginWebView.reload()
     }
 }
 
 //MARK: - WKNavigationDelegate
 extension LoginViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        // Chỗ này em đang test nên các anh đừng check chỗ này :v
+    func webView(_ webView: WKWebView,
+                 decidePolicyFor navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let code = navigationAction.request.queryString(after: Constants.responseQuery) {
-            repo.requestToken(code: code) { result in
+            userRepository.requestToken(with: code) { [weak self] result in
+                guard let self = self else { return }
                 switch result {
-                case .success(let token):
-                    print(token ?? "Nil")
+                case .success:
+                    self.gotoMainTabBarScene()
                 case .failure(let error):
-                    print(error ?? "Error")
+                    self.showErrorAlert(message: error.debugDescription)
                 default:
                     break
                 }
             }
         }
         decisionHandler(.allow)
+    }
+    
+    private func gotoMainTabBarScene() {
+        DispatchQueue.main.async {
+            if let window = UIApplication.shared.windows.first,
+                let mainTabBar = AppStoryboard.main.instantiateInitialViewController() {
+                window.rootViewController = mainTabBar
+            }
+        }
     }
 }

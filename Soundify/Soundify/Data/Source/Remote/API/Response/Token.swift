@@ -1,5 +1,5 @@
 //
-//  RefreshTokenResponse.swift
+//  Token.swift
 //  Soundify
 //
 //  Created by Viet Anh on 2/27/20.
@@ -21,7 +21,7 @@ So you have to set keyDecodingStrategy before decode
 let decoder = JSONDecoder()
 decoder.keyDecodingStrategy = .convertFromSnakeCase
 */
-struct RefreshTokenResponse: Codable {
+struct Token: Codable {
     let scope: String
     let accessToken: String
     let expiresIn: Int

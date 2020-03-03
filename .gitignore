@@ -48,6 +48,7 @@ playground.xcworkspace
 
 .build/
 /Soundify/Soundify/Utils/APIKey.swift
+**/.DS_Store
 
 # CocoaPods
 #

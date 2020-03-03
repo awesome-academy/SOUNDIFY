@@ -12,11 +12,14 @@ import WebKit
 struct UserRepository {
     
     func login(on webView: WKWebView) {
-        let urlRequest = URLRequest.init(url: URL.init(string: URLs.authorization)!)
+        guard let url = URL(string: URLs.authorization) else { return }
+        let urlRequest = URLRequest(url: url)
         webView.load(urlRequest)
     }
     
-    func requestToken (code: String, completion: @escaping (BaseResult<RefreshTokenResponse>?) -> Void) {
+    func requestToken(with code: String, completion: @escaping (BaseResult<Token>?) -> Void) {
+        UserSession.shared.saveCode(code)
+        
         let key = APIKey.CLIENT_ID + ":" + APIKey.CLIENT_SECRET
         guard let keyBase64String = key.data(using: .utf8)?.base64EncodedString() else { return }
         
@@ -30,11 +33,12 @@ struct UserRepository {
         
         let request = BaseRequest(URLs.token, .post, header: header, parameter: parameters)
         
-        SpotifyService.shared.requestPost(request: request) { (object: RefreshTokenResponse?, error) in
-            if let object = object {
-                completion(.success(object))
-            } else if let error = error {
+        SpotifyService.shared.request(input: request) { (token: Token?, error) in
+            if let error = error  {
                 completion(.failure(error: error))
+            } else if let token = token {
+                UserSession.shared.saveToken(token)
+                completion(.success(token))
             } else {
                 completion(.failure(error: nil))
             }

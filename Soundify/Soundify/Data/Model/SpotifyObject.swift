@@ -9,7 +9,7 @@
 import Foundation
 
 //https://developer.spotify.com/documentation/web-api/reference/object-model/#paging-object
-struct SpotifyObject<T:BaseModel>: BaseModel {
+struct SpotifyObject<T: BaseModel>: BaseModel {
     let href: String
     let items: [T]?
     let limit: Int
