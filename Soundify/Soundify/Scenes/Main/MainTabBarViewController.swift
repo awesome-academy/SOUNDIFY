@@ -23,11 +23,17 @@ class MainTabBarViewController: UITabBarController {
     }
     
     private func setUpViewControllers() {
-        guard let homeViewController = initialiseViewController(name: .home, image: #imageLiteral(resourceName: "tab_icon_home"), selectedImage: #imageLiteral(resourceName: "tab_icon_home_filled")) else { return }
+        guard let homeViewController = initialiseViewController(name: .home,
+                                                                image: #imageLiteral(resourceName: "tab_icon_home"),
+                                                                selectedImage: #imageLiteral(resourceName: "tab_icon_home_filled")) else { return }
         
-        guard let searchViewController = initialiseViewController(name: .search, image: #imageLiteral(resourceName: "tab_icon_search"), selectedImage: #imageLiteral(resourceName: "tab_icon_search")) else { return }
+        guard let searchViewController = initialiseViewController(name: .search,
+                                                                  image: #imageLiteral(resourceName: "tab_icon_search"),
+                                                                  selectedImage: #imageLiteral(resourceName: "tab_icon_search")) else { return }
         
-        guard let libraryViewController = initialiseViewController(name: .yourLibrary, image: #imageLiteral(resourceName: "tab_icon_library"), selectedImage: #imageLiteral(resourceName: "tab_icon_library_filled")) else { return }
+        guard let libraryViewController = initialiseViewController(name: .yourLibrary,
+                                                                   image: #imageLiteral(resourceName: "tab_icon_library"),
+                                                                   selectedImage: #imageLiteral(resourceName: "tab_icon_library_filled")) else { return }
         
         viewControllers = [homeViewController, searchViewController, libraryViewController]
     }
