@@ -34,7 +34,7 @@ struct SpotifyService {
         }
         
         if let parameter = input.parameter {
-           urlRequest.httpBody = parameter.percentEncoded()
+            urlRequest.httpBody = parameter.percentEncoded()
         }
         
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
@@ -45,6 +45,9 @@ struct SpotifyService {
                     completion(nil, nil)
                     return
                 }
+                //Debug print json
+                //let json = try? JSONSerialization.jsonObject(with: data, options: [])
+                //print(json)
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 if let result = try? decoder.decode(T.self, from: data) {

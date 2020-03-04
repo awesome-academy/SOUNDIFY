@@ -14,19 +14,19 @@ import Foundation
 // let decoder = JSONDecoder()
 // decoder.keyDecodingStrategy = .convertFromSnakeCase
 struct Album: BaseModel {
-    let albumType: String
-    let artists: [Artis] = []
-    let availableMarkets: [String] = []
-    let externalIds: ExternalId?
-    let externalUrls: ExternalUrl
-    let genres: [String]?
-    let href: String
-    let id: String
-    let images: [Image] = []
-    let name: String
-    let releaseDate: String?
-    let releaseDatePrecision: String?
-    let tracks: [Track]?
-    let type: String
-    let uri: String
+    var albumType: String = ""
+    var artists: [Artis] = []
+    var availableMarkets: [String] = []
+    var externalIds: ExternalId?
+    var externalUrls: ExternalUrl
+    var genres: [String]?
+    var href: String = ""
+    var id: String = ""
+    var images: [Image] = []
+    var name: String = ""
+    var releaseDate: String?
+    var releaseDatePrecision: String?
+    var tracks: [Track]?
+    var type: String = ""
+    var uri: String = ""
 }
