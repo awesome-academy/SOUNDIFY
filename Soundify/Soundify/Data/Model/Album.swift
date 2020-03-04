@@ -29,5 +29,4 @@ struct Album: BaseModel {
     let tracks: [Track]?
     let type: String
     let uri: String
-    
 }
