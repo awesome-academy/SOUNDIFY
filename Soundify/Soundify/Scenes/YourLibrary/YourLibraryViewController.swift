@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class YourLibraryViewController: UIViewController {
+final class YourLibraryViewController: UIViewController {
     @IBAction func logoutBarButtonClicked(_ sender: UIBarButtonItem) {
         UserSession.shared.clearUserData()
         clearCookies()
