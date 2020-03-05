@@ -9,12 +9,16 @@
 import UIKit
 
 final class HomeViewController: UIViewController {
+    private var total = 0
+    private var limit = 20
+    private var offset = 0
     
-    private var albums: [Album]?
+    private var items: [Album] = []
     
     @IBOutlet private weak var tableView: UITableView!
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         fetchListOfNewReleases()
         tableView.delegate = self
         tableView.dataSource = self
@@ -23,45 +27,60 @@ final class HomeViewController: UIViewController {
     }
     
     private func fetchListOfNewReleases() {
-        UserRepository.shared.getListOfNewReleases(limit: nil, offset: nil) { [weak self] result in
-            guard let self = self else { return }
+        UserRepository.shared.getListOfNewReleases(limit: limit, offset: offset) { [weak self] result in
             switch result {
             case .success(let result):
-                if let albums = result?.albums?.items {
-                    self.albums = albums
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
+                guard let albums = result?.albums else { return }
+                self?.items += albums.items
+                self?.total = albums.total
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
                 }
             case .failure(let error):
-                self.showErrorAlert(message: error.debugDescription)
+                self?.showErrorAlert(message: error.debugDescription)
             default:
                 break
             }
         }
     }
 }
-
-extension HomeViewController: UITableViewDataSource, UITableViewDelegate  {
+//MARK: - UITableViewDataSource
+extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let size = albums?.count {
-            return size
-        }
-        return 0
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Cell.homeTableView)
-        if let cell = cell as? HomeTableViewCell {
-            cell.album = albums?[indexPath.row]
-            cell.setUpCell()
-            return cell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.homeTableView) as? HomeTableViewCell else { return UITableViewCell() }
+        if indexPath.row == self.items.count - 1 {
+            self.loadMore()
         }
-        return UITableViewCell()
-        
+        cell.setUpCell(with: items[indexPath.row])
+        return cell
+    }
+    
+    private func loadMore() {
+        if offset + limit <= total {
+            offset += limit
+            fetchListOfNewReleases()
+        } else if offset != total {
+            offset = total
+            fetchListOfNewReleases()
+        }
+    }
+}
+
+//MARK: - UITableViewDelegate
+extension HomeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return HeaderView(frame: tableView.frame, title: Constants.headerTitle.newRelease)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return Constants.tableView.heightForHeaderInSection
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110.0
+        return Constants.tableView.heightForRow
     }
 }

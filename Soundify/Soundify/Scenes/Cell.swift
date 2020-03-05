@@ -7,3 +7,9 @@
 //
 
 import Foundation
+import UIKit
+
+struct Cell {
+    public static let homeTableView = "HomeTableViewCell"
+
+}

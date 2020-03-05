@@ -16,10 +16,9 @@ import Foundation
 struct Artis: BaseModel {
     var externalUrls: ExternalUrl
     var followers: Follower?
-    var genres: [String]?
     var href: String = ""
     var id: String = ""
-    var images: [Image]?
+    var images: [Image] = []
     var name: String = ""
     var popularity: Int?
     var type: String = ""

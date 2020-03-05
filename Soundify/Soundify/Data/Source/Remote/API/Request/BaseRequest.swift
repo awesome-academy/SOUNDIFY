@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BaseRequest {
+struct BaseRequest {
     var url = ""
     var requestType: RequestType = .get
     var header: [String: String]?

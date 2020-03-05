@@ -17,16 +17,11 @@ struct Album: BaseModel {
     var albumType: String = ""
     var artists: [Artis] = []
     var availableMarkets: [String] = []
-    var externalIds: ExternalId?
     var externalUrls: ExternalUrl
-    var genres: [String]?
     var href: String = ""
     var id: String = ""
     var images: [Image] = []
     var name: String = ""
-    var releaseDate: String?
-    var releaseDatePrecision: String?
-    var tracks: [Track]?
     var type: String = ""
     var uri: String = ""
 }

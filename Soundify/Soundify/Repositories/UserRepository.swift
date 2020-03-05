@@ -53,20 +53,13 @@ struct UserRepository {
         }
     }
     
-    func getListOfNewReleases(limit: Int?, offset: Int?,completion: @escaping (BaseResult<SpotifySearch>?) -> Void) {
-        var header: [String:String] = [:]
-        var parameters: [String:Int] = [:]
+    func getListOfNewReleases(limit: Int, offset: Int,completion: @escaping (BaseResult<SpotifySearch>?) -> Void) {
+        guard let accessToken = accessToken else { return }
         
-        if let accessToken = accessToken {
-          header["Authorization"] = "Bearer \(accessToken)"
-        }
+        let header = ["Authorization": "Bearer \(accessToken)"]
+        let urlString = URLs.newReleases + "?offset=\(offset)&limit=\(limit)"
         
-        if let limit = limit, let offset = offset {
-            parameters["limit"] = limit
-            parameters["offset"] = offset
-        }
-        
-        let request = BaseRequest(URLs.newReleases, .get, header: header, parameter: parameters)
+        let request = BaseRequest(urlString, .get, header: header)
         
         spotifyService.request(input: request) { (result: SpotifySearch?, error) in
             if let error = error  {

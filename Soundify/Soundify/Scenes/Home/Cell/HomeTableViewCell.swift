@@ -8,63 +8,40 @@
 
 import UIKit
 
-class HomeTableViewCell: UITableViewCell {
+final class HomeTableViewCell: UITableViewCell {
     
     //MARK: - IBOutlet
     @IBOutlet private weak var albumImageView: UIImageView!
     @IBOutlet private weak var titleLable: UILabel!
     @IBOutlet private weak var descriptionLabel: UILabel!
     
-    //MARK: - Variable
-    var album: Album?
-    
-    private lazy var descriptionAlbum: String = {
-        var description = ""
-        if let artists = album?.artists {
-            for (index,artist) in artists.enumerated() {
-                if index == artists.count - 1 {
-                    description += "\(artist.name)"
-                } else {
-                    description += "\(artist.name), "
-                }
-            }
+    func setUpCell(with album: Album) {
+        backgroundColor = #colorLiteral(red: 0.09718047827, green: 0.07773689181, blue: 0.07808386534, alpha: 1)
+        titleLable.text = album.name
+        descriptionLabel.text = getDescription(of: album)
+        if let url = getUrlImage(of: album) {
+            albumImageView.load(url)
         }
-        return description
-    }()
+    }
     
-    private lazy var urlImage: URL? = {
+    private func getDescription(of album: Album) -> String {
+        var description = [String]()
+        let artists = album.artists
+        artists.forEach { (artist) in
+            description.append(artist.name)
+        }
+        return description.joined(separator: ", ")
+    }
+    
+    private func getUrlImage(of album: Album) -> URL? {
         var stringURL = ""
-        if let images = album?.images {
-            for image in images {
-                if image.height == 64 {
-                    stringURL = image.url
-                }
+        let images = album.images
+        for image in images {
+            if image.height == 64 {
+                stringURL = image.url
             }
         }
         return URL(string: stringURL)
-    }()
-    
-    
-    func setUpCell() {
-        titleLable.text = album?.name
-        descriptionLabel.text = descriptionAlbum
-        if let url = urlImage {
-            albumImageView.load(url: url)
-        }
-    }
-}
-
-extension UIImageView {
-    func load(url: URL) {
-        DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.image = image
-                    }
-                }
-            }
-        }
     }
 }
 
