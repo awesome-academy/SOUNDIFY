@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class HeaderView: UIView {
     
@@ -35,9 +36,11 @@ class HeaderView: UIView {
     private func setUpView(_ title: String) {
         self.backgroundColor = #colorLiteral(red: 0.09718047827, green: 0.07773689181, blue: 0.07808386534, alpha: 1)
         self.addSubview(titleLabel)
-        titleLabel.text = title
-        titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        titleLabel.text = title        
+        titleLabel.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
     }
     
 }

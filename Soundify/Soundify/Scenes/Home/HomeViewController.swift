@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Reusable
 
 final class HomeViewController: UIViewController {
     private var total = 0
@@ -19,11 +20,24 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configView()
         fetchListOfNewReleases()
+    }
+    
+    private func configView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView?.register(UINib(nibName: Cell.homeTableView, bundle: nil),
-                            forCellReuseIdentifier: Cell.homeTableView)
+        tableView.register(cellType: HomeTableViewCell.self)
+    }
+    
+    private func loadMore() {
+        if offset + limit <= total {
+            offset += limit
+            fetchListOfNewReleases()
+        } else if offset != total {
+            offset = total
+            fetchListOfNewReleases()
+        }
     }
     
     private func fetchListOfNewReleases() {
@@ -52,35 +66,28 @@ extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.homeTableView) as? HomeTableViewCell else { return UITableViewCell() }
-        if indexPath.row == self.items.count - 1 {
-            self.loadMore()
-        }
         cell.setUpCell(with: items[indexPath.row])
         return cell
-    }
-    
-    private func loadMore() {
-        if offset + limit <= total {
-            offset += limit
-            fetchListOfNewReleases()
-        } else if offset != total {
-            offset = total
-            fetchListOfNewReleases()
-        }
     }
 }
 
 //MARK: - UITableViewDelegate
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return HeaderView(frame: tableView.frame, title: Constants.headerTitle.newRelease)
+        return HeaderView(frame: tableView.frame, title: Constants.HeaderTitle.newRelease)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return Constants.tableView.heightForHeaderInSection
+        return Constants.TableView.heightForHeaderInSection
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.tableView.heightForRow
+        return Constants.TableView.heightForRow
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == self.items.count - 1 {
+            self.loadMore()
+        }
     }
 }

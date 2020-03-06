@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import Reusable
+import SDWebImage
 
-final class HomeTableViewCell: UITableViewCell {
+final class HomeTableViewCell: UITableViewCell, Reusable, NibLoadable {
     
     //MARK: - IBOutlet
     @IBOutlet private weak var albumImageView: UIImageView!
@@ -20,28 +22,17 @@ final class HomeTableViewCell: UITableViewCell {
         titleLable.text = album.name
         descriptionLabel.text = getDescription(of: album)
         if let url = getUrlImage(of: album) {
-            albumImageView.load(url)
+            albumImageView.sd_setImage(with: url, completed: nil)
         }
     }
     
     private func getDescription(of album: Album) -> String {
-        var description = [String]()
-        let artists = album.artists
-        artists.forEach { (artist) in
-            description.append(artist.name)
-        }
-        return description.joined(separator: ", ")
+        return album.artists.map { $0.name }.joined(separator: ", ")
     }
     
     private func getUrlImage(of album: Album) -> URL? {
-        var stringURL = ""
-        let images = album.images
-        for image in images {
-            if image.height == 64 {
-                stringURL = image.url
-            }
-        }
-        return URL(string: stringURL)
+        let stringURL = album.images.filter { $0.height == 64 }.last?.url
+        return URL(string: stringURL ?? "")
     }
 }
 

@@ -29,19 +29,15 @@ struct Constants {
 
 //MARK: - TableView
 extension Constants {
-    static let tableView = TableView()
-    
     struct TableView {
-        let heightForRow: CGFloat = 90.0
-        let heightForHeaderInSection: CGFloat = 70.0
+        static let heightForRow: CGFloat = 90.0
+        static let heightForHeaderInSection: CGFloat = 70.0
     }
 }
 
 //MARK: - Header Title
 extension Constants {
-    static let headerTitle = HeaderTitle()
-    
     struct HeaderTitle {
-       let newRelease = "New Releases"
+       static let newRelease = "New Releases"
     }
 }
