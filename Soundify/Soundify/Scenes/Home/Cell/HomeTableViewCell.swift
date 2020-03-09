@@ -10,7 +10,7 @@ import UIKit
 import Reusable
 import SDWebImage
 
-final class HomeTableViewCell: UITableViewCell, Reusable, NibLoadable {
+final class HomeTableViewCell: UITableViewCell, NibReusable {
     
     //MARK: - IBOutlet
     @IBOutlet private weak var albumImageView: UIImageView!
