@@ -15,12 +15,9 @@ import Foundation
 // decoder.keyDecodingStrategy = .convertFromSnakeCase
 struct Artis: BaseModel {
     var externalUrls: ExternalUrl
-    var followers: Follower?
     var href: String = ""
     var id: String = ""
-    var images: [Image] = []
     var name: String = ""
-    var popularity: Int?
     var type: String = ""
     var uri: String = ""
 }

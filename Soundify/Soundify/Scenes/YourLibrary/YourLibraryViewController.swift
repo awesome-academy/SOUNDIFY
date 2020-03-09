@@ -7,9 +7,72 @@
 //
 
 import UIKit
+import Reusable
 import WebKit
 
 final class YourLibraryViewController: UIViewController {
+    
+    @IBOutlet private weak var tableView: UITableView!
+    
+    private var items: [Playlist] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configView()
+        fetchListOfCurrentUserPlaylists()
+    }
+    
+    private func configView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(cellType: YourLibraryTableViewCell.self)
+    }
+    
+    private func fetchListOfCurrentUserPlaylists() {
+        UserRepository.shared.getListOfCurrentUserPlaylists { [weak self] result in
+            switch result {
+            case .success(let result):
+                guard let userPlaylists = result?.items else { return }
+                self?.items += userPlaylists
+            case .failure(let error):
+                self?.showErrorAlert(message: error.debugDescription)
+            default:
+                break
+            }
+        }
+    }
+}
+//MARK: - UITableViewDataSource
+extension YourLibraryViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(for: indexPath) as YourLibraryTableViewCell
+        switch indexPath.row {
+        case 0:
+            cell.setUpFirstCell()
+        default:
+            cell.setUpCell(with: items[indexPath.row])
+        }
+        return cell
+    }
+}
+//MARK: - UITableViewDelegate
+extension YourLibraryViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Constants.TableView.heightForRow
+    }
+}
+//MARK: - WebKit
+extension YourLibraryViewController {
     @IBAction func logoutBarButtonClicked(_ sender: UIBarButtonItem) {
         UserSession.shared.clearUserData()
         clearCookies()
@@ -19,7 +82,7 @@ final class YourLibraryViewController: UIViewController {
             self.present(loginScene, animated: true)
         }
     }
-
+    
     private func clearCookies() {
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
         WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
