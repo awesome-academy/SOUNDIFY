@@ -14,14 +14,13 @@ import Foundation
 // let decoder = JSONDecoder()
 // decoder.keyDecodingStrategy = .convertFromSnakeCase
 struct Artis: BaseModel {
-    let externalUrls: ExternalUrl
-    let followers: Follower?
-    let genres: [String] = []
-    let href: String
-    let id: String
-    let images: [Image]?
-    let name: String
-    let popularity: Int?
-    let type: String
-    let uri: String
+    var externalUrls: ExternalUrl
+    var followers: Follower?
+    var href: String = ""
+    var id: String = ""
+    var images: [Image] = []
+    var name: String = ""
+    var popularity: Int?
+    var type: String = ""
+    var uri: String = ""
 }

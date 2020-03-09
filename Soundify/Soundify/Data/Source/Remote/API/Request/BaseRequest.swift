@@ -12,7 +12,7 @@ struct BaseRequest {
     var url = ""
     var requestType: RequestType = .get
     var header: [String: String]?
-    var parameter: [String: String]?
+    var parameter: [String: Any]?
     
     init(_ url: String,_ requestType: RequestType) {
         self.url = url
@@ -25,7 +25,7 @@ struct BaseRequest {
         self.header = header
     }
     
-    init(_ url: String,_ requestType: RequestType, header: [String: String]?, parameter: [String: String]?) {
+    init(_ url: String,_ requestType: RequestType, header: [String: String]?, parameter: [String: Any]?) {
         self.url = url
         self.requestType = requestType
         self.header = header

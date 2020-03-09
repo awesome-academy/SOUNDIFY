@@ -10,11 +10,11 @@ import Foundation
 
 //https://developer.spotify.com/documentation/web-api/reference/object-model/#paging-object
 struct SpotifyObject<T: BaseModel>: BaseModel {
-    let href: String
-    let items: [T]?
-    let limit: Int
-    let next: String
-    let offset: Int
-    let previous: String
-    let total: Int
+    var href: String
+    var items: [T] = []
+    var limit: Int
+    var next: String?
+    var offset: Int
+    var previous: String?
+    var total: Int
 }

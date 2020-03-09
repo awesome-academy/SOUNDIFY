@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import UIKit
 
+//MARK: - Spotify Authorization
 struct Constants {
     private static let scopes = ["user-modify-playback-state",
     "user-top-read",
@@ -23,7 +25,19 @@ struct Constants {
     
     public static let REDIRECT_URI = "soundify://"
     public static let responseQuery = REDIRECT_URI + "?code="
-    
-    
-    
+}
+
+//MARK: - TableView
+extension Constants {
+    struct TableView {
+        static let heightForRow: CGFloat = 90.0
+        static let heightForHeaderInSection: CGFloat = 70.0
+    }
+}
+
+//MARK: - Header Title
+extension Constants {
+    struct HeaderTitle {
+       static let newRelease = "New Releases"
+    }
 }

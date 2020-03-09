@@ -34,7 +34,7 @@ struct SpotifyService {
         }
         
         if let parameter = input.parameter {
-           urlRequest.httpBody = parameter.percentEncoded()
+            urlRequest.httpBody = parameter.percentEncoded()
         }
         
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
