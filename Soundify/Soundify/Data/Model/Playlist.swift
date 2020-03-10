@@ -14,14 +14,19 @@ import Foundation
 // let decoder = JSONDecoder()
 // decoder.keyDecodingStrategy = .convertFromSnakeCase
 struct Playlist: BaseModel {
-    let description: String
-    let externalUrls: ExternalUrl
-    let followers: Follower
-    let href: String
-    let id: String
-    let image: [Image] = []
-    let name: String
-    let tracks: [Track] = []
-    let type: String
-    let uri: String
+    var description: String = ""
+    var externalUrls: ExternalUrl
+    var href: String = ""
+    var id: String = ""
+    var images: [Image] = []
+    var name: String = ""
+    var owner: User
+    var tracks: PlaylistTrack
+    var type: String = ""
+    var uri: String = ""
+}
+
+struct PlaylistTrack: BaseModel {
+    var href: String = ""
+    var total: Int = 0
 }

@@ -71,6 +71,24 @@ struct UserRepository {
             }
         }
     }
+    
+    func getListOfCurrentUserPlaylists(completion: @escaping (BaseResult<SpotifyObject<Playlist>>?) -> Void) {
+        guard let accessToken = accessToken else { return }
+        
+        let header = ["Authorization": "Bearer \(accessToken)"]
+        
+        let request = BaseRequest(URLs.currentUserPlaylist, .get, header: header)
+        
+        spotifyService.request(input: request) { (result: SpotifyObject<Playlist>?, error) in
+            if let error = error  {
+                completion(.failure(error: error))
+            } else if let result = result {
+                completion(.success(result))
+            } else {
+                completion(.failure(error: nil))
+            }
+        }
+    }
 }
 
 

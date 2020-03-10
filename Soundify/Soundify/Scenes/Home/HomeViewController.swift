@@ -65,12 +65,11 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.homeTableView) as? HomeTableViewCell else { return UITableViewCell() }
+        let cell = tableView.dequeueReusableCell(for: indexPath) as HomeTableViewCell
         cell.setUpCell(with: items[indexPath.row])
         return cell
     }
 }
-
 //MARK: - UITableViewDelegate
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

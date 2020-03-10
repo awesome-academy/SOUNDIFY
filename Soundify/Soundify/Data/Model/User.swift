@@ -14,12 +14,10 @@ import Foundation
 // let decoder = JSONDecoder()
 // decoder.keyDecodingStrategy = .convertFromSnakeCase
 struct User: BaseModel {
-    var displayName: String
+    var displayName: String = ""
     var externalUrls: ExternalUrl
-    var followers: Follower
-    var href: String
-    var id: String
-    var images: [Image] = []
-    var type: String
-    var uri: String
+    var href: String = ""
+    var id: String = ""
+    var type: String = ""
+    var uri: String = ""
 }
