@@ -26,7 +26,6 @@
         <!--SEARCH-->
         <scene sceneID="YWl-cH-IM3">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="DNJ-XX-5pX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController id="0o7-aJ-Iot" customClass="SearchViewController" customModule="Soundify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Re-ed-TPi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -36,8 +35,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="SEARCH" leftItemsSupplementBackButton="YES" id="qBy-4V-zYo"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DNJ-XX-5pX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="126" y="116"/>
+            <point key="canvasLocation" x="124.6376811594203" y="115.84821428571428"/>
         </scene>
     </scenes>
 </document>
