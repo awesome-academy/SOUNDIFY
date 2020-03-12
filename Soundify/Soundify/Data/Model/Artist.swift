@@ -18,6 +18,7 @@ struct Artis: BaseModel {
     var href: String = ""
     var id: String = ""
     var name: String = ""
+    var images: [Image]?
     var type: String = ""
     var uri: String = ""
 }
