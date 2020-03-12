@@ -7,17 +7,24 @@
 //
 
 import UIKit
+import Reusable
 
 final class SearchViewController: UIViewController {
     
-    private let itemsSegmented = ["Tracks", "Artists", "Albums", "Playlist"]
-    private var switchSegment = true {
+    private var total = 0
+    private var limit = 20
+    private var offset = 0
+    private var items: [Any] = [] {
         didSet {
-            segmentedControl.isHidden = switchSegment
-            buttonBar.isHidden = switchSegment
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
+            }
         }
     }
     
+    private let itemsSegmented = ["Tracks", "Artists", "Albums", "Playlists"]
+    
+    @IBOutlet private  weak var tableView: UITableView!
     private lazy var segmentedControl = SearchSegmentedControl(items: itemsSegmented)
     private lazy var searchController = UISearchController()
     private lazy var buttonBar = ButtonBarView()
@@ -26,15 +33,81 @@ final class SearchViewController: UIViewController {
         super.viewDidLoad()
         setUpView()
         configView()
-        switchSegment = true
     }
     
+    override func viewWillLayoutSubviews() {
+        DispatchQueue.main.async { [weak self] in
+            self?.updataPositionButtonBar()
+        }
+    }
+    
+    private func fetchDataSearchForAnItem(query: String, type: String) {
+        UserRepository.shared.searchForAnItem(query: query, type: type, limit: limit, offset: offset) {
+            [weak self] result in
+            switch result {
+            case .success(let data):
+                if let data = data {
+                    self?.updateItems(data: data)
+                }
+            case .failure(let error):
+                self?.showErrorAlert(message: error.debugDescription)
+            default:
+                break
+            }
+        }
+    }
+}
+
+//MARK: - Items
+extension SearchViewController {
+    
+    private func resetItemWhenChangeValue() {
+        items = []
+        total = 0
+        offset = 0
+    }
+    
+    private func searchAnItem(text: String?) {
+        if let text = text {
+            let type = itemsSegmented[segmentedControl.selectedSegmentIndex].encodeForSearch
+            fetchDataSearchForAnItem(query: text, type: type)
+        }
+    }
+    
+    private func updateItems(data: SpotifySearch) {
+        if let tracks = data.tracks {
+            total = tracks.total
+            items += tracks.items
+        }
+        
+        if let artists = data.artists {
+            total = artists.total
+            items += artists.items
+        }
+        
+        if let albums = data.albums {
+            total = albums.total
+            items += albums.items
+        }
+        
+        if let playlists = data.playlists {
+            total = playlists.total
+            items += playlists.items
+        }
+    }
 }
 
 //MARK: - SetUpView and ConfigView
 extension SearchViewController {
+    
     private func configView() {
-        searchController.searchBar.delegate = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(cellType: ResultSearchCell.self)
+        
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        
         navigationItem.searchController = searchController
     }
     
@@ -49,7 +122,7 @@ extension SearchViewController {
         view.addSubview(buttonBar)
         buttonBar.setUpConstraints(on: self, hasSegmentedControl: segmentedControl)
     }
-
+    
     private func setUpSearchBarViewController() {
         let appearance = UINavigationBarAppearance()
         
@@ -67,21 +140,71 @@ extension SearchViewController {
         searchField.backgroundColor = .white
     }
     
+    private func updataPositionButtonBar() {
+        let originX = (segmentedControl.frame.width / CGFloat(segmentedControl.numberOfSegments)) * CGFloat(segmentedControl.selectedSegmentIndex)
+        buttonBar.frame.origin.x = originX
+    }
+    
     @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        resetItemWhenChangeValue()
+        searchAnItem(text: searchController.searchBar.text)
+        
         UIView.animate(withDuration: 0.3) {
-            let originX = (self.segmentedControl.frame.width / CGFloat(self.segmentedControl.numberOfSegments)) * CGFloat(self.segmentedControl.selectedSegmentIndex)
-            self.buttonBar.frame.origin.x = originX
+            self.updataPositionButtonBar()
         }
     }
 }
 
-//MARK: - UISearchBarDelegate
-extension SearchViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        switchSegment = false
+//MARK: - UISearchResultsUpdating
+extension SearchViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let text = searchController.searchBar.text {
+            resetItemWhenChangeValue()
+            searchAnItem(text: text)
+        }
     }
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        switchSegment = true
-    }
+
 }
+
+//MARK: - UITableViewDataSource
+extension SearchViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(for: indexPath) as ResultSearchCell
+        cell.setUpCell(with: items[indexPath.row])
+        return cell
+    }
+    
+}
+
+//MARK: - UITableViewDelegate
+extension SearchViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Constants.TableView.heightForRow
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == self.items.count - 1 {
+            self.loadMore()
+        }
+    }
+    
+    private func loadMore() {
+        if offset + limit <= total {
+            offset += limit
+            searchAnItem(text: searchController.searchBar.text)
+        } else if offset != total {
+            offset = total
+            searchAnItem(text: searchController.searchBar.text)
+        }
+    }
+   
+}
+
 

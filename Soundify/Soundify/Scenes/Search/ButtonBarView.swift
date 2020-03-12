@@ -19,9 +19,7 @@ final class ButtonBarView: UIView {
     }
     
     func setUpConstraints(on viewController: UIViewController , hasSegmentedControl segmentedControl: UISegmentedControl) {
-        translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .black
-        
+        backgroundColor = .lightGray
         self.snp.makeConstraints { (make) in
             make.top.equalTo(segmentedControl.snp.bottom)
             make.height.equalTo(3)

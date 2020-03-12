@@ -89,6 +89,27 @@ struct UserRepository {
             }
         }
     }
+    
+    func searchForAnItem(query: String, type: String, limit: Int, offset: Int, completion: @escaping (BaseResult<SpotifySearch>?) -> Void) {
+        guard let accessToken = accessToken else { return }
+        
+        let header = ["Authorization": "Bearer \(accessToken)"]
+        
+        let encodeQuery = query.replacingOccurrences(of: " ", with: "%20")
+        let urlString = URLs.search + "q=\(encodeQuery)&type=\(type)" + "&limit=\(limit)&offset=\(offset)"
+        
+        let request = BaseRequest(urlString, .get, header: header)
+        
+        spotifyService.request(input: request) { (result: SpotifySearch?, error) in
+            if let error = error  {
+                completion(.failure(error: error))
+            } else if let result = result {
+                completion(.success(result))
+            } else {
+                completion(.failure(error: nil))
+            }
+        }
+    }
 }
 
 

@@ -25,7 +25,6 @@ final class SearchSegmentedControl: UISegmentedControl {
     
     func setUpConstraints(on viewController: UIViewController) {
         let safeArea = viewController.view.safeAreaLayoutGuide
-        translatesAutoresizingMaskIntoConstraints = false
         snp.makeConstraints { (make) in
             make.top.equalTo(safeArea.snp.top)
             make.leading.equalTo(safeArea.snp.leading)
@@ -35,13 +34,14 @@ final class SearchSegmentedControl: UISegmentedControl {
     }
     
     func setUpView() {
+        selectedSegmentIndex = 0
         removeSeparators(withBackgroundColor: .clear, tintColor: .clear)
         
         let textAttributesNormal : [NSAttributedString.Key: Any] =
-            [.foregroundColor : UIColor.lightGray]
+            [.foregroundColor : UIColor.lightText]
         
         let textAttributesSelected : [NSAttributedString.Key: Any] =
-            [.foregroundColor : UIColor.black]
+            [.foregroundColor : UIColor.white]
         
         setTitleTextAttributes(textAttributesNormal, for: .normal)
         setTitleTextAttributes(textAttributesSelected, for: .selected)

@@ -12,6 +12,18 @@ import UIKit
 //Source: https://stackoverflow.com/questions/26961274/how-can-i-make-a-button-have-a-rounded-border-in-swift
 @IBDesignable extension UIView {
     
+    func makeRounded() {
+        layer.masksToBounds = false
+        cornerRadius = self.frame.height / 2
+        clipsToBounds = true
+    }
+    
+    func makeSquare() {
+        layer.masksToBounds = false
+        cornerRadius = 0
+        clipsToBounds = true
+    }
+    
     @IBInspectable var borderWidth: CGFloat {
         set {
             layer.borderWidth = newValue
