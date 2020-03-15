@@ -4,13 +4,13 @@ PODS:
     - Reusable/View (= 4.1.1)
   - Reusable/Storyboard (4.1.1)
   - Reusable/View (4.1.1)
-  - SDWebImage (5.5.2):
-    - SDWebImage/Core (= 5.5.2)
-  - SDWebImage/Core (5.5.2)
+  - SDWebImage (5.6.0):
+    - SDWebImage/Core (= 5.6.0)
+  - SDWebImage/Core (5.6.0)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
-  - Reusable (~> 4.1.1)
+  - Reusable
   - SDWebImage (~> 5.0)
   - SnapKit (~> 5.0.0)
 
@@ -22,9 +22,9 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Reusable: 53a9acf5c536f229b31b5865782414b508252ddb
-  SDWebImage: 4d5c027c935438f341ed33dbac53ff9f479922ca
+  SDWebImage: 21b19f56b4226cdfe3aefe4e6848dc43ed129a86
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 7382cb2615923460287f7f9c59cc1ce03cedfb75
+PODFILE CHECKSUM: 42a5300e463fabd8ae94a0ed7b06426f3a140cd1
 
 COCOAPODS: 1.8.4

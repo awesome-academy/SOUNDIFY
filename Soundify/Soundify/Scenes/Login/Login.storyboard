@@ -21,7 +21,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gtv-re-i7X" userLabel="BotView">
                                 <rect key="frame" x="0.0" y="448" width="414" height="448"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" YOUR MUSIC" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="23"  translatesAutoresizingMaskIntoConstraints="NO" id="pdq-sh-D8G">
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" YOUR MUSIC" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="23" translatesAutoresizingMaskIntoConstraints="NO" id="pdq-sh-D8G">
                                         <rect key="frame" x="20" y="127.5" width="310.5" height="67.5"/>
                                         <color key="backgroundColor" red="0.24813413619999999" green="0.2976077795" blue="0.90201169250000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="45"/>
