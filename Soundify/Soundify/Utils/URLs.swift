@@ -22,4 +22,8 @@ struct URLs {
     public static let newReleases = APIBaseUrl + "/browse/new-releases"
     public static let currentUserPlaylist = APIBaseUrl + "/me/playlists"
     public static let search = APIBaseUrl +  "/search?"
+    public static let albums = APIBaseUrl + "/albums/"
+    public static let playlists = APIBaseUrl + "/playlists/"
+    public static let artists = APIBaseUrl + "/artists?"
+    public static let users = APIBaseUrl + "/users/"
 }

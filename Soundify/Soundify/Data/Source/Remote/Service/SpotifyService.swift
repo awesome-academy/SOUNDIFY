@@ -45,9 +45,13 @@ struct SpotifyService {
                     completion(nil, nil)
                     return
                 }
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                if let result = try? decoder.decode(T.self, from: data) {
+                //Decode date "yyyy-MM-dd"
+                let decoderDate = JSONDecoder()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                decoderDate.dateDecodingStrategy = .formatted(dateFormatter)
+                decoderDate.keyDecodingStrategy = .convertFromSnakeCase
+                if let result = try? decoderDate.decode(T.self, from: data) {
                     completion(result, nil)
                 }
             }

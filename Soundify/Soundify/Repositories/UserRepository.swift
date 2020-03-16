@@ -110,6 +110,110 @@ struct UserRepository {
             }
         }
     }
+    
+    func getAnAlbumDetail(album: Album, completion: @escaping (BaseResult<AlbumDetail>?) -> Void) {
+        guard let accessToken = accessToken else { return }
+        
+        let header = ["Authorization": "Bearer \(accessToken)"]
+        
+        let urlString = URLs.albums + "\(album.id)"
+        
+        let request = BaseRequest(urlString, .get, header: header)
+        
+        spotifyService.request(input: request) { (result: AlbumDetail?, error) in
+            if let error = error  {
+                completion(.failure(error: error))
+            } else if let result = result {
+                completion(.success(result))
+            } else {
+                completion(.failure(error: nil))
+            }
+        }
+    }
+    
+    func getPlaylistDetail(playlist: Playlist, completion: @escaping (BaseResult<PlaylistDetail>?) -> Void) {
+        guard let accessToken = accessToken else { return }
+        
+        let header = ["Authorization": "Bearer \(accessToken)"]
+        
+        let urlString = URLs.playlists + "\(playlist.id)"
+        
+        let request = BaseRequest(urlString, .get, header: header)
+        
+        spotifyService.request(input: request) { (result: PlaylistDetail?, error) in
+            if let error = error  {
+                completion(.failure(error: error))
+            } else if let result = result {
+                completion(.success(result))
+            } else {
+                completion(.failure(error: nil))
+            }
+        }
+    }
+    
+    func getPlaylistDetailTrack(limit: Int, offset: Int ,playlist: Playlist, completion: @escaping (BaseResult<SpotifyObject<PlaylistDetailTrack>>?) -> Void) {
+        guard let accessToken = accessToken else { return }
+        
+        let header = ["Authorization": "Bearer \(accessToken)"]
+        
+        let urlString = URLs.playlists + "\(playlist.id)/tracks?limit=\(limit)&offset=\(offset)"
+        
+        let request = BaseRequest(urlString, .get, header: header)
+        
+        spotifyService.request(input: request) { (result: SpotifyObject<PlaylistDetailTrack>?, error) in
+            if let error = error  {
+                completion(.failure(error: error))
+            } else if let result = result {
+                completion(.success(result))
+            } else {
+                completion(.failure(error: nil))
+            }
+        }
+    }
+    
+    func getSeveralArtistsDetail(artists: [Artis], completion: @escaping (BaseResult<Artists>?) -> Void) {
+        guard let accessToken = accessToken else { return }
+        
+        let header = ["Authorization": "Bearer \(accessToken)"]
+        
+        var urlString = URLs.artists + "ids="
+        for artist in artists {
+            urlString += "\(artist.id),"
+        }
+        urlString.removeLast()
+        
+        let request = BaseRequest(urlString, .get, header: header)
+        
+        spotifyService.request(input: request) { (result: Artists?, error) in
+            if let error = error  {
+                completion(.failure(error: error))
+            } else if let result = result {
+                completion(.success(result))
+            } else {
+                completion(.failure(error: nil))
+            }
+        }
+    }
+    
+    func getUsersProfile(user: User, completion: @escaping (BaseResult<UserDetail>?) -> Void) {
+        guard let accessToken = accessToken else { return }
+        
+        let header = ["Authorization": "Bearer \(accessToken)"]
+        
+        let urlString = URLs.users + "\(user.id)"
+        
+        let request = BaseRequest(urlString, .get, header: header)
+        
+        spotifyService.request(input: request) { (result: UserDetail?, error) in
+            if let error = error  {
+                completion(.failure(error: error))
+            } else if let result = result {
+                completion(.success(result))
+            } else {
+                completion(.failure(error: nil))
+            }
+        }
+    }
 }
 
 
