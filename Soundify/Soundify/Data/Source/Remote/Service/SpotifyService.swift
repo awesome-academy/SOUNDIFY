@@ -11,6 +11,13 @@ import Foundation
 struct SpotifyService {
     static let shared = SpotifyService()
     
+    private var decoder: JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.from(format: "yyyy-MM-dd"))
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }
+    
     private func printRequest(_ request: BaseRequest) {
         print("\n------------REQUEST INPUT")
         print("type: %@", request.requestType.rawValue)
@@ -45,9 +52,8 @@ struct SpotifyService {
                     completion(nil, nil)
                     return
                 }
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                if let result = try? decoder.decode(T.self, from: data) {
+                
+                if let result = try? self.decoder.decode(T.self, from: data) {
                     completion(result, nil)
                 }
             }

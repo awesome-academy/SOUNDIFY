@@ -9,7 +9,7 @@
 import UIKit
 import Reusable
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: BaseViewController {
     private var total = 0
     private var limit = 20
     private var offset = 0
@@ -82,6 +82,12 @@ extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.TableView.heightForRow
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let albumDetailViewController = AlbumDetailViewController()
+        albumDetailViewController.album = items[indexPath.row]
+        navigationController?.pushViewController(albumDetailViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

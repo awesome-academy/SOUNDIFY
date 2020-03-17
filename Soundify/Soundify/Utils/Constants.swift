@@ -31,6 +31,9 @@ struct Constants {
 extension Constants {
     struct TableView {
         static let heightForRow: CGFloat = 90.0
+        static let heightForRowDetail: CGFloat = 70.0
+        static let heightForRowCopyright: CGFloat = 60.0
+        static let heightForRowHeaderDetail: CGFloat = 165.0
         static let heightForHeaderInSection: CGFloat = 70.0
     }
 }

@@ -22,3 +22,7 @@ struct Artis: BaseModel {
     var type: String = ""
     var uri: String = ""
 }
+
+struct Artists: BaseModel {
+    var artists: [Artis]
+}

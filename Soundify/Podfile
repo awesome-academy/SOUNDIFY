@@ -6,6 +6,7 @@ target 'Soundify' do
   use_frameworks!
 
   # Pods for Soundify
+  pod 'Then'
   pod 'Reusable'
   pod 'SnapKit', '~> 5.0.0'
   pod 'SDWebImage', '~> 5.0'
