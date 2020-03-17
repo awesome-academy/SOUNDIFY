@@ -18,6 +18,5 @@ class BaseViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.prefersLargeTitles = false
     }
 }

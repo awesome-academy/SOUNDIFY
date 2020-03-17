@@ -19,7 +19,7 @@ struct AlbumDetail: BaseModel {
     var images: [Image] = []
     var label: String
     var name: String = ""
-    var releaseDate: Date = Date()
+    var releaseDate: Date?
     var tracks: SpotifyObject<Track>
     var type: String = ""
     var uri: String = ""

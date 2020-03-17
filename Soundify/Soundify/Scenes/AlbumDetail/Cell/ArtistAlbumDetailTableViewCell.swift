@@ -9,7 +9,7 @@
 import UIKit
 import Reusable
 
-class ArtistAlbumDetailTableViewCell: UITableViewCell, NibReusable {
+final class ArtistAlbumDetailTableViewCell: UITableViewCell, NibReusable {
     
     //MARK: - IBOutlet
     @IBOutlet private weak var artistImageView: UIImageView!
@@ -20,8 +20,6 @@ class ArtistAlbumDetailTableViewCell: UITableViewCell, NibReusable {
         titleLabel.text = artist.name
         
         artistImageView.makeRounded()
-        if let url = URL(string: artist.images?.last?.url ?? "") {
-            artistImageView.sd_setImage(with: url, completed: nil)
-        }
+        artistImageView.sd_setImage(with: URL(string: artist.images?.last?.url ?? ""), completed: nil)
     }
 }

@@ -8,12 +8,19 @@
 
 import UIKit
 
-protocol TopDetailViewDelegate: AnyObject {
+protocol TopDetailViewDelegate: class {
     func leftBarButtonItemClicked()
     func scrollViewDidScroll(_ scrollView: UIScrollView)
 }
 
-class TopDetailView: UIView {
+final class TopDetailView: UIView {
+    
+    //MARK: - IBOutlet
+    @IBOutlet private var contentView: UIView!
+    @IBOutlet private weak var navigationBarView: UIView!
+    @IBOutlet private weak var detailImageView: UIImageView!
+    @IBOutlet private weak var imageTopSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var titleLabel: UILabel!
     
     //MARK: - Init
     override init(frame: CGRect) {
@@ -35,21 +42,9 @@ class TopDetailView: UIView {
         setUpDetailView(with: playlist)
     }
     
-    private let nibName = "TopDetailView"
     private func commonInit() {
-        Bundle.main.loadNibNamed(nibName, owner: self, options: nil)
+        Bundle.main.loadNibNamed("TopDetailView", owner: self, options: nil)
         addSubview(contentView)
-    }
-
-    //MARK: - IBOutlet & IBAction
-    @IBOutlet private var contentView: UIView!
-    @IBOutlet weak var navigationBarView: UIView!
-    @IBOutlet private weak var albumImageView: UIImageView!
-    @IBOutlet private weak var imageTopSpace: NSLayoutConstraint!
-    @IBOutlet private weak var titleLabel: UILabel!
-    
-    @IBAction private func backButtonClicked(_ sender: UIButton) {
-        delegate?.leftBarButtonItemClicked()
     }
 
     //MARK: - Variable for Stretchy Header Effect
@@ -73,22 +68,25 @@ class TopDetailView: UIView {
     
     //MARK: - Setup View
     
-    private func setUpDetailView(with album: Album) {
+    private func configView() {
         navigationBarView.setGradientBackground(colorTop: #colorLiteral(red: 0.1450815201, green: 0.1451086104, blue: 0.1450755298, alpha: 1), colorBottom: #colorLiteral(red: 0.09718047827, green: 0.07773689181, blue: 0.07808386534, alpha: 1))
-        titleLabel.text = album.name
         titleLabel.alpha = 0.0
-        if let url = URL(string: album.images.first?.url ?? "") {
-            albumImageView.sd_setImage(with: url, completed: nil)
+        detailImageView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
         }
     }
     
+    private func setUpDetailView(with album: Album) {
+        configView()
+        titleLabel.text = album.name
+        detailImageView.sd_setImage(with: URL(string: album.images.first?.url ?? ""), completed: nil)
+    }
+    
     private func setUpDetailView(with playlist: Playlist) {
-        navigationBarView.setGradientBackground(colorTop: #colorLiteral(red: 0.1450815201, green: 0.1451086104, blue: 0.1450755298, alpha: 1), colorBottom: #colorLiteral(red: 0.09718047827, green: 0.07773689181, blue: 0.07808386534, alpha: 1))
+        configView()
         titleLabel.text = playlist.name
-        titleLabel.alpha = 0.0
-        if let url = URL(string: playlist.images.first?.url ?? "") {
-            albumImageView.sd_setImage(with: url, completed: nil)
-        }
+        detailImageView.sd_setImage(with: URL(string: playlist.images.first?.url ?? ""), completed: nil)
+        
     }
     
     //MARK: - For scrollViewDidScroll
@@ -116,15 +114,21 @@ class TopDetailView: UIView {
         
         let position = min(max(yPosition, navigationBarHeight), screenHeight)
         
-        frame = CGRect(x: 0, y: navigationBarHeight, width: screenWidth, height: position)
+        frame = CGRect(x: 0, y: 0, width: screenWidth, height: position)
 
         if yPosition >= viewHeight {
-            albumImageView.transform = CGAffineTransform(scaleX: (yPosition/viewHeight), y: (yPosition/viewHeight))
-            imageTopSpace.constant = topAlignmentConstraintImageView
+            detailImageView.transform = CGAffineTransform(scaleX: yPosition / viewHeight, y: yPosition / viewHeight)
+            imageTopSpaceConstraint.constant = topAlignmentConstraintImageView
         } else {
-            imageTopSpace.constant =
+            imageTopSpaceConstraint.constant =
                 (yPosition - (viewHeight - topAlignmentConstraintImageView)) + ((yPosition - viewHeight) * 0.6)
         }
+    }
+    
+    //MARK: - IBAction
+    
+    @IBAction private func backButtonClicked(_ sender: UIButton) {
+        delegate?.leftBarButtonItemClicked()
     }
     
 }

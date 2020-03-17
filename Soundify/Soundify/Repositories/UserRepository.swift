@@ -151,7 +151,8 @@ struct UserRepository {
         }
     }
     
-    func getPlaylistDetailTrack(limit: Int, offset: Int ,playlist: Playlist, completion: @escaping (BaseResult<SpotifyObject<PlaylistDetailTrack>>?) -> Void) {
+    func getPlaylistDetailTrack(limit: Int, offset: Int ,playlist: Playlist,
+                                completion: @escaping (BaseResult<SpotifyObject<PlaylistDetailTrack>>?) -> Void) {
         guard let accessToken = accessToken else { return }
         
         let header = ["Authorization": "Bearer \(accessToken)"]

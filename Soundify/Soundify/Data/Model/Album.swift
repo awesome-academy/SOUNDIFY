@@ -22,7 +22,6 @@ struct Album: BaseModel {
     var id: String = ""
     var images: [Image] = []
     var name: String = ""
-    var releaseDate: Date = Date()
     var type: String = ""
     var uri: String = ""
 }

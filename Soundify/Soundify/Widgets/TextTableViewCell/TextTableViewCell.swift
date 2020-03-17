@@ -9,12 +9,16 @@
 import UIKit
 import Reusable
 
-class TextTableViewCell: UITableViewCell, NibReusable {
+final class TextTableViewCell: UITableViewCell, NibReusable {
 
-    @IBOutlet weak var detailLabel: UILabel!
+    @IBOutlet private weak var detailLabel: UILabel!
+    
+    private func configView() {
+        backgroundColor = #colorLiteral(red: 0.09718047827, green: 0.07773689181, blue: 0.07808386534, alpha: 1)
+    }
     
     func setUpCell(with text: String){
-        backgroundColor = #colorLiteral(red: 0.09718047827, green: 0.07773689181, blue: 0.07808386534, alpha: 1)
+        configView()
         detailLabel.text = text
     }
     
