@@ -90,9 +90,10 @@ extension LoginViewController: WKNavigationDelegate {
     
     private func gotoMainTabBarScene() {
         DispatchQueue.main.async {
-            if let window = UIApplication.shared.windows.first,
-                let mainTabBar = AppStoryboard.main.instantiateInitialViewController() {
-                window.rootViewController = mainTabBar
+            if let mainTabBar = AppStoryboard.main.instantiateInitialViewController() {
+                mainTabBar.modalTransitionStyle = .flipHorizontal
+                mainTabBar.modalPresentationStyle = .overFullScreen
+                self.show(mainTabBar, sender: nil)
             }
         }
     }
