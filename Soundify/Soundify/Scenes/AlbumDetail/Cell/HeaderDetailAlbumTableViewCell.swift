@@ -17,7 +17,7 @@ final class HeaderDetailAlbumTableViewCell: UITableViewCell, NibReusable {
     
     func setUpView(with album: Album, releaseDate: Date, artists: [Artis]) {
         backgroundColor = #colorLiteral(red: 0.09718047827, green: 0.07773689181, blue: 0.07808386534, alpha: 1)
-        typeAlbumLabel.text = album.albumType.capitalized + " • " + Date().onlyYearFormatter.string(from: releaseDate)
+        typeAlbumLabel.text = album.albumType.capitalized + " • " + releaseDate.yearString
         nameLabel.text = album.name
         artistsLabel.text = artists.sequenceNameArtistsWithDot
     }

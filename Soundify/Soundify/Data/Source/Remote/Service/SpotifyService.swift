@@ -13,7 +13,7 @@ struct SpotifyService {
     
     private var decoder: JSONDecoder {
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(Date().requestFormatter)
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.from(format: "yyyy-MM-dd"))
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
     }

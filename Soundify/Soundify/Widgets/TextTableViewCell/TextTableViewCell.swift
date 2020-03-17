@@ -13,12 +13,16 @@ final class TextTableViewCell: UITableViewCell, NibReusable {
 
     @IBOutlet private weak var detailLabel: UILabel!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        configView()
+    }
+    
     private func configView() {
         backgroundColor = #colorLiteral(red: 0.09718047827, green: 0.07773689181, blue: 0.07808386534, alpha: 1)
     }
     
     func setUpCell(with text: String){
-        configView()
         detailLabel.text = text
     }
     
