@@ -47,10 +47,12 @@ final class AlbumDetailViewController: BaseDetailViewController {
         tableView.dataSource = self
         tableView.contentInset = detailView.edgeInsets
         
-        tableView.register(cellType: TextTableViewCell.self)
-        tableView.register(cellType: TrackAlbumDetailTableViewCell.self)
-        tableView.register(cellType: ArtistAlbumDetailTableViewCell.self)
-        tableView.register(cellType: HeaderDetailAlbumTableViewCell.self)
+        tableView.do {
+            $0.register(cellType: TextTableViewCell.self)
+            $0.register(cellType: TrackAlbumDetailTableViewCell.self)
+            $0.register(cellType: ArtistAlbumDetailTableViewCell.self)
+            $0.register(cellType: HeaderDetailAlbumTableViewCell.self)
+        }
     }
 }
 
@@ -114,15 +116,21 @@ extension AlbumDetailViewController {
 //MARK: - UITableViewDataSource
 extension AlbumDetailViewController: UITableViewDataSource {
     
+    fileprivate enum Section: Int {
+        case header = 0, tracks, artists, copyrights
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let section = Section(rawValue: section)
+        
         switch section {
-        case 0:
+        case .header:
             return 1
-        case 1:
+        case .tracks:
             return tracks.count + 1
-        case 2:
+        case .artists:
             return artists.count
-        case 3:
+        case .copyrights:
             return copyrights.count
         default:
             return 0
@@ -130,13 +138,15 @@ extension AlbumDetailViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case 0:
+        let section = Section(rawValue: indexPath.section)
+        
+        switch section {
+        case .header:
             let cell = tableView.dequeueReusableCell(for: indexPath) as HeaderDetailAlbumTableViewCell
             cell.setUpView(with: album, releaseDate: releaseDate, artists: artists)
             return cell
             
-        case 1:
+        case .tracks:
             if indexPath.row < tracks.count {
                 let cell = tableView.dequeueReusableCell(for: indexPath) as TrackAlbumDetailTableViewCell
                 cell.setUpCell(with: tracks[indexPath.row])
@@ -145,17 +155,17 @@ extension AlbumDetailViewController: UITableViewDataSource {
                 return setUpCellDate(tableView, cellForRowAt: indexPath)
             }
             
-        case 2:
+        case .artists:
             let cell = tableView.dequeueReusableCell(for: indexPath) as ArtistAlbumDetailTableViewCell
             cell.setUpCell(with: artists[indexPath.row])
             return cell
             
-        case 3:
+        case .copyrights:
             let cell = tableView.dequeueReusableCell(for: indexPath) as TextTableViewCell
             cell.setUpCell(with: copyrights[indexPath.row].text)
             return cell
             
-        default:
+        case .none:
             return UITableViewCell()
         }
     }
@@ -178,15 +188,18 @@ extension AlbumDetailViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-        case 0:
+        
+        let section = Section(rawValue: indexPath.section)
+        
+        switch section {
+        case .header:
             return Constants.TableView.heightForRowHeaderDetail
-        case 3:
+            
+        case .copyrights:
             return Constants.TableView.heightForRowCopyright
+            
         default:
             return Constants.TableView.heightForRowDetail
         }
-        
     }
-    
 }

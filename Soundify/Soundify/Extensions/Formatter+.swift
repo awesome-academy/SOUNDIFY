@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import Then
 
 extension Formatter {
     
     static let separatorNumberWithComma: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.groupingSeparator = ","
-        formatter.numberStyle = .decimal
-        return formatter
+        return NumberFormatter().then {
+            $0.groupingSeparator = ","
+            $0.numberStyle = .decimal
+        }
     }()
 }
