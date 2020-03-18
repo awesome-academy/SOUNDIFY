@@ -9,9 +9,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TopDetailView" customModule="Soundify" customModuleProvider="target">
             <connections>
-                <outlet property="albumImageView" destination="T3I-9A-qOj" id="JK1-zf-4EI"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="OTw-6e-nLm"/>
-                <outlet property="imageTopSpace" destination="U0A-yH-MO6" id="keq-Yu-HVe"/>
+                <outlet property="detailImageView" destination="T3I-9A-qOj" id="pXu-Vo-raL"/>
+                <outlet property="imageTopSpaceConstraint" destination="U0A-yH-MO6" id="d7s-JF-L2c"/>
+                <outlet property="navigationBarView" destination="dhl-yc-1Eg" id="Byb-LY-qAt"/>
                 <outlet property="titleLabel" destination="eMT-i6-Kxd" id="W0G-wf-Dom"/>
             </connections>
         </placeholder>
@@ -37,7 +38,6 @@
                             </constraints>
                             <state key="normal" image="icon_navi_back_white"/>
                             <connections>
-                                <action selector="backButtonClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="K6S-H6-Pf4"/>
                                 <action selector="backButtonClicked:" destination="-1" eventType="touchUpInside" id="XNQ-Oq-21f"/>
                             </connections>
                         </button>
@@ -70,12 +70,6 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <connections>
-                <outlet property="albumImageView" destination="T3I-9A-qOj" id="eeN-xD-8sV"/>
-                <outlet property="backButton" destination="g1C-yA-aHO" id="W8i-Fm-XKE"/>
-                <outlet property="imageTopSpace" destination="U0A-yH-MO6" id="GDH-Bk-Qp3"/>
-                <outlet property="titleLabel" destination="eMT-i6-Kxd" id="eYy-c5-Rss"/>
-            </connections>
             <point key="canvasLocation" x="137.68115942028987" y="191.51785714285714"/>
         </view>
     </objects>

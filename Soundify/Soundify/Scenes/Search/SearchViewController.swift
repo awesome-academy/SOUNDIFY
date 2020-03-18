@@ -9,7 +9,7 @@
 import UIKit
 import Reusable
 
-final class SearchViewController: UIViewController {
+final class SearchViewController: BaseViewController {
     
     private var total = 0
     private var limit = 20
@@ -55,6 +55,14 @@ final class SearchViewController: UIViewController {
                 break
             }
         }
+    }
+}
+
+//MARK: - Dismiss Keyboard
+extension SearchViewController {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchController.searchBar.endEditing(true)
     }
 }
 
@@ -192,6 +200,27 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == self.items.count - 1 {
             self.loadMore()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch segmentedControl.selectedSegmentIndex {
+            
+        //Albums
+        case 2:
+            guard let album = items[indexPath.row] as? Album else { return }
+            let albumDetailViewController = AlbumDetailViewController()
+            albumDetailViewController.album = album
+            navigationController?.pushViewController(albumDetailViewController, animated: true)
+            
+        // Playlists
+        case 3:
+            guard let playlist = items[indexPath.row] as? Playlist else { return }
+            guard let playlistDetailVC = AppStoryboard.playlistDetail.instantiateInitialViewController() as? PlaylistDetailViewController else { return }
+            playlistDetailVC.playlist = playlist
+            navigationController?.pushViewController(playlistDetailVC, animated: true)
+        default:
+            break
         }
     }
     
