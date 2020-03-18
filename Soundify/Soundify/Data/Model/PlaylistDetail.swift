@@ -21,7 +21,3 @@ struct PlaylistDetail: BaseModel {
     var type: String = ""
     var uri: String = ""
 }
-
-struct PlaylistDetailTrack: BaseModel {
-    var track: Track
-}

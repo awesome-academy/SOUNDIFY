@@ -13,14 +13,15 @@ final class PlaylistDetailViewController: BaseDetailViewController {
     
     //MARK: - IBOutlet
     @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var ownerImage: UIImageView!
-    @IBOutlet private weak var ownerName: UILabel!
+    @IBOutlet private weak var ownerImageView: UIImageView!
+    @IBOutlet private weak var ownerNameLabel: UILabel!
     @IBOutlet private weak var descriptionsLabel: UILabel!
     @IBOutlet private weak var timeLabel: UILabel!
     @IBOutlet private weak var numberLikeLabel: UILabel!
     
     //MARK: - Detail View
-    private lazy var detailView = TopDetailView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 0), with: playlist)
+    private lazy var detailView = TopDetailView(frame:
+                                        CGRect(x: 0, y: 0,width: view.frame.width, height: 0), with: playlist)
     
     //MARK: - Variable for Table View
     private var total = 0
@@ -50,9 +51,7 @@ final class PlaylistDetailViewController: BaseDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configView()
-        fetchUsersProfile(user: playlist.owner)
-        fetchPlaylistDetail(playlist: playlist)
-        fetchPlaylistDetailTrack()
+        fetchData()
     }
     
     private func configView() {
@@ -62,7 +61,7 @@ final class PlaylistDetailViewController: BaseDetailViewController {
     
     private func configDetailView() {
         view.addSubview(detailView)
-        ownerImage.makeRounded()
+        ownerImageView.makeRounded()
         detailView.delegate = self
         descriptionsLabel.text = playlist.description
     }
@@ -88,6 +87,12 @@ extension PlaylistDetailViewController: TopDetailViewDelegate {
 
 //MARK: - UserRepository
 extension PlaylistDetailViewController {
+    
+    private func fetchData() {
+        fetchUsersProfile(user: playlist.owner)
+        fetchPlaylistDetail(playlist: playlist)
+        fetchPlaylistDetailTrack()
+    }
     
     private func fetchPlaylistDetail(playlist: Playlist) {
         total = playlist.tracks.total
@@ -129,8 +134,8 @@ extension PlaylistDetailViewController {
             case .success(let result):
                 if let userDetail = result {
                     DispatchQueue.main.async {
-                        self?.ownerName.text = userDetail.displayName
-                        self?.ownerImage.sd_setImage(with: URL(string: userDetail.images.first?.url ?? ""), completed: nil)
+                        self?.ownerNameLabel.text = userDetail.displayName
+                        self?.ownerImageView.sd_setImage(with: URL(string: userDetail.images.first?.url ?? ""), completed: nil)
                     }
                 }
             case .failure(let error):
@@ -152,7 +157,7 @@ extension PlaylistDetailViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(for: indexPath, cellType: TrackPlaylistDetailTableViewCell.self)
-        cell.detailTrack = items[indexPath.row]
+        cell.configCell(track: items[indexPath.row].track)
         return cell
     }
     
@@ -160,6 +165,14 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 
 //MARK: - UITableViewDelegate
 extension PlaylistDetailViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let track = items[indexPath.row].track
+        let trackDetailViewController = TrackDetailViewController()
+        trackDetailViewController.track = track
+        trackDetailViewController.modalPresentationStyle = .overFullScreen
+        present(trackDetailViewController, animated: true, completion: nil)
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.TableView.heightForRowTrackPlaylistDetail

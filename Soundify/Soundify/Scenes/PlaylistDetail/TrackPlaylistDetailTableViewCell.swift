@@ -9,20 +9,17 @@
 import UIKit
 import Reusable
 
-class TrackPlaylistDetailTableViewCell: UITableViewCell, Reusable {
-
+final class TrackPlaylistDetailTableViewCell: UITableViewCell, Reusable {
+    
     @IBOutlet private weak var trackImageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var artistsLabel: UILabel!
     
-    var detailTrack: PlaylistDetailTrack! {
-        didSet {
-            backgroundColor = #colorLiteral(red: 0.09718047827, green: 0.07773689181, blue: 0.07808386534, alpha: 1)
-            let track = detailTrack.track
-            nameLabel.text = track.name
-            artistsLabel.text = track.artists.sequenceNameArtistsWithComma
-            trackImageView.sd_setImage(with: track.album?.images.urlImage, completed: nil)
-        }
+    func configCell(track: Track) {
+        backgroundColor = #colorLiteral(red: 0.09718047827, green: 0.07773689181, blue: 0.07808386534, alpha: 1)
+        nameLabel.text = track.name
+        artistsLabel.text = track.artists.sequenceNameArtistsWithComma
+        trackImageView.sd_setImage(with: track.album?.images.urlImage, completed: nil)
     }
-
+    
 }

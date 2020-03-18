@@ -78,7 +78,8 @@ extension YourLibraryViewController: UITableViewDelegate {
         case 0:
             return
         default:
-            guard let playlistDetailVC = AppStoryboard.playlistDetail.instantiateInitialViewController() as? PlaylistDetailViewController else { return }
+            guard let playlistDetailVC = AppStoryboard.playlistDetail.instantiateInitialViewController()
+                                                        as? PlaylistDetailViewController else { return }
             playlistDetailVC.playlist = items[indexPath.row - 1]
             navigationController?.pushViewController(playlistDetailVC, animated: true)
         }
