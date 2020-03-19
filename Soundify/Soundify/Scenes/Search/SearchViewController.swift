@@ -205,6 +205,14 @@ extension SearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch segmentedControl.selectedSegmentIndex {
+        
+        //Track
+        case 0:
+            guard let track = items[indexPath.row] as? Track else { return }
+            let trackDetailViewController = TrackDetailViewController()
+            trackDetailViewController.track = track
+            trackDetailViewController.modalPresentationStyle = .overFullScreen
+            present(trackDetailViewController, animated: true, completion: nil)
             
         //Albums
         case 2:

@@ -15,6 +15,7 @@ enum AppStoryboard : String {
     case home = "Home"
     case search = "Search"
     case yourLibrary = "YourLibrary"
+    case playlistDetail = "PlaylistDetail"
     
     var instance : UIStoryboard {
         return UIStoryboard(name: self.rawValue, bundle: .main)

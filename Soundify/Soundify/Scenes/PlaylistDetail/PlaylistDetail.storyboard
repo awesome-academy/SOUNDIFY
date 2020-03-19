@@ -143,8 +143,8 @@
                     <connections>
                         <outlet property="descriptionsLabel" destination="W6x-7A-DhI" id="PbY-Np-zUT"/>
                         <outlet property="numberLikeLabel" destination="lY1-NK-jgO" id="Pjt-nb-LLI"/>
-                        <outlet property="ownerImage" destination="3b1-IF-qyx" id="SI4-pY-4Hw"/>
-                        <outlet property="ownerName" destination="bde-6Q-3r5" id="5lK-c0-OzD"/>
+                        <outlet property="ownerImageView" destination="3b1-IF-qyx" id="SI4-pY-4Hw"/>
+                        <outlet property="ownerNameLabel" destination="bde-6Q-3r5" id="5lK-c0-OzD"/>
                         <outlet property="tableView" destination="IZS-I7-0XA" id="vjP-9Z-ZJF"/>
                         <outlet property="timeLabel" destination="TVG-XW-g9l" id="apB-CM-Ufa"/>
                     </connections>

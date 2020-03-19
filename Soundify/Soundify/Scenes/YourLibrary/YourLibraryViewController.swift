@@ -10,7 +10,7 @@ import UIKit
 import Reusable
 import WebKit
 
-final class YourLibraryViewController: UIViewController {
+final class YourLibraryViewController: BaseViewController {
     
     @IBOutlet private weak var tableView: UITableView!
     
@@ -50,8 +50,9 @@ final class YourLibraryViewController: UIViewController {
 }
 //MARK: - UITableViewDataSource
 extension YourLibraryViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return items.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,15 +61,29 @@ extension YourLibraryViewController: UITableViewDataSource {
         case 0:
             cell.setUpFirstCell()
         default:
-            cell.setUpCell(with: items[indexPath.row])
+            cell.setUpCell(with: items[indexPath.row - 1])
         }
         return cell
     }
 }
 //MARK: - UITableViewDelegate
 extension YourLibraryViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.TableView.heightForRow
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            return
+        default:
+            guard let playlistDetailVC = AppStoryboard.playlistDetail.instantiateInitialViewController()
+                                                        as? PlaylistDetailViewController else { return }
+            playlistDetailVC.playlist = items[indexPath.row - 1]
+            navigationController?.pushViewController(playlistDetailVC, animated: true)
+        }
+        
     }
 }
 //MARK: - WebKit
