@@ -22,7 +22,7 @@ final class AlbumDetailViewController: BaseDetailViewController {
     private var artists: [Artis] = []
     private var tracks: [Track] = []
     private var copyrights: [Copyright] = []
-
+    
     @IBOutlet private weak var tableView: UITableView!
     
     //MARK: - Life Cycle
@@ -167,6 +167,24 @@ extension AlbumDetailViewController: UITableViewDataSource {
             
         case .none:
             return UITableViewCell()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let section = Section(rawValue: indexPath.section)
+        
+        switch section {
+        case .tracks:
+            if indexPath.row < tracks.count {
+                let track = tracks[indexPath.row]
+                let trackDetailViewController = TrackDetailViewController()
+                trackDetailViewController.track = track
+                trackDetailViewController.modalPresentationStyle = .overFullScreen
+                present(trackDetailViewController, animated: true, completion: nil)
+            }
+            
+        default:
+            break
         }
     }
     
