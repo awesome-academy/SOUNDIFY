@@ -18,6 +18,10 @@ extension TimeInterval {
         }
     }
     
+    var formatterMinuteAndSecondInTrack: String {
+        return String(format:"%d:%02d", minute, second)
+    }
+    
     var formatterOnlyMinuteAndSecond: String {
         return String(format:"%d min %02d sec", minute, second)
     }
